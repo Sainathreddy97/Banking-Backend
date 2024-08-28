@@ -1,0 +1,13 @@
+package com.hdfc.service;
+
+import java.util.List;
+
+import com.hdfc.dto.UserDto;
+import com.hdfc.entity.User;
+
+public interface UserService {
+	 User registerUser(User user);
+	    UserDto authenticate(String usernameOrEmail, String password);
+	    boolean verifyUser(String verificationCode);
+	    List<UserDto> getAllUsers();
+}

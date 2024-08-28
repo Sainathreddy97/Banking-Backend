@@ -1,0 +1,9 @@
+package com.hdfc.service;
+
+import com.hdfc.dto.AccountDto;
+
+public interface AccountService {
+AccountDto saveAccount(AccountDto accountDto);
+AccountDto getAccountById(Long id);
+AccountDto deposit(Long id, double amount);
+}

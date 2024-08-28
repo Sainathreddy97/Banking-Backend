@@ -1,0 +1,28 @@
+package com.authenticate.dto;
+
+import java.util.Set;
+
+import com.authenticate.entity.Role;
+
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class UserDto {
+	private Long id;
+	@NotEmpty
+	private String username;
+	@NotEmpty
+	private String passwordHash;
+	@NotEmpty
+	@Email
+	private String email;
+	private String phoneNumber;
+	private Set<Role> roles;
+	
+}

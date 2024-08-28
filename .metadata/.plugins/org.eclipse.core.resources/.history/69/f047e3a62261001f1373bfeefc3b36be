@@ -1,0 +1,7 @@
+package com.authenticate.entity;
+
+public enum Role_Type {
+	 MANAGER,
+	    USER,
+	    BANK_EMPLOYEE
+}

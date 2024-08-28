@@ -1,0 +1,10 @@
+package com.authenticate.service;
+
+import org.springframework.security.core.userdetails.UserDetails;
+
+import com.authenticate.dto.UserDto;
+
+public interface UserService {
+	 
+	UserDto getUser(long id);
+}

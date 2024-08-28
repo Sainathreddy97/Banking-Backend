@@ -1,0 +1,27 @@
+package com.hdfc.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.hdfc.entity.User;
+import com.hdfc.repository.UserRepository;
+import com.hdfc.utility.LoginMesage;
+
+@Service
+public class UserServiceImpl extends UserService {
+	@Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+   
+}

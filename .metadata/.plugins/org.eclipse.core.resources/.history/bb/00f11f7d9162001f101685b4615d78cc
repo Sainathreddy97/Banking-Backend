@@ -1,0 +1,45 @@
+package com.hdfc.controller;
+
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.hdfc.dto.AccountDto;
+import com.hdfc.service.AccountServiceImpl;
+
+@RestController
+@RequestMapping("/account")
+public class AccountController {
+
+	@Autowired
+	private AccountServiceImpl accountServiceImpl;
+	
+	@PostMapping("/save")
+	public ResponseEntity<AccountDto> addAccount(@RequestBody AccountDto accountDto){
+		return new ResponseEntity<>(accountServiceImpl.saveAccount(accountDto),HttpStatus.CREATED);
+	}
+	
+	@GetMapping("{id}")
+	public ResponseEntity<AccountDto> getAccountById(@PathVariable Long id){
+		AccountDto accountDto = accountServiceImpl.getAccountById(id);
+		return ResponseEntity.ok(accountDto);
+	}
+	
+	
+	@PutMapping("/{id}/deposit")
+	public ResponseEntity<AccountDto> deposit( Long id,Map<String,Double> req){
+		 Double amount = req.get("amount");
+		AccountDto accountDto = accountServiceImpl.deposit(id,amount);
+		return ResponseEntity.ok(accountDto);
+				
+	}
+}

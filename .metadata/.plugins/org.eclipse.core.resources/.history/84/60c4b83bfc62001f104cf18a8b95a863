@@ -1,0 +1,54 @@
+package com.hdfc.service;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.config.authentication.UserServiceBeanDefinitionParser;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.hdfc.dto.LoginDto;
+import com.hdfc.entity.User;
+import com.hdfc.repository.UserRepository;
+import com.hdfc.utility.LoginMesage;
+
+@Service
+public class UserServiceImpl implements UserService {
+	@Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+	
+	public LoginMesage loginUser(LoginDto loginDto) {
+		String msg = "";
+		
+		User byEmail = userRepository.findByEmail(loginDto.getEmail());
+		
+		 if (employee1 != null) {
+	            String password = loginDTO.getPassword();
+	            String encodedPassword = employee1.getPassword();
+	            Boolean isPwdRight = passwordEncoder.matches(password, encodedPassword);
+	            if (isPwdRight) {
+	                Optional<Employee> employee = employeeRepo.findOneByEmailAndPassword(loginDTO.getEmail(), encodedPassword);
+	                if (employee.isPresent()) {
+	                    return new LoginMesage("Login Success", true);
+	                } else {
+	                    return new LoginMesage("Login Failed", false);
+	                }
+	            } else {
+	                return new LoginMesage("password Not Match", false);
+	            }
+	        }else {
+	            return new LoginMesage("Email not exits", false);
+	        }
+	    
+	}
+   
+}

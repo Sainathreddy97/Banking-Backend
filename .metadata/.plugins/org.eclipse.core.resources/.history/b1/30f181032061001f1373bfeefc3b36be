@@ -1,0 +1,5 @@
+package com.authenticate.controller;
+
+public class UserController {
+
+}

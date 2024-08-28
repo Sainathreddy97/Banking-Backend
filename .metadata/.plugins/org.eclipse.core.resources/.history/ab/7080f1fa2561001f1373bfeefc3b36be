@@ -1,0 +1,5 @@
+package com.authenticate.security;
+
+public class SecurityConfig {
+
+}

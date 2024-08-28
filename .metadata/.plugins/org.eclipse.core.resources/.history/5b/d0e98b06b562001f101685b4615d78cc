@@ -1,0 +1,26 @@
+spring.application.name=banking-service
+server.port=8012
+
+server.error.include-message=always
+
+# MySQL Database Configuration
+spring.datasource.url=jdbc:mysql://localhost:3306/bankproject
+spring.datasource.username=root
+spring.datasource.password=toor
+
+# Hibernate Configuration
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+
+
+
+logging.level.com.example=TRACE
+spring.output.ansi.enabled=always
+logging.file.name=loggers.log
+logging.pattern.file=%d{yyyy-mm-dd HH:mm:ss.SSS} [%level] %c{1.} [%t] %m%n
+
+# Passwords
+spring.security.user.name=sainath
+spring.security.user.password=pass
+spring.security.user.roles=ADMIN,USER,MANAGER

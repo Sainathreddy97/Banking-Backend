@@ -1,0 +1,40 @@
+package com.hdfc.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.hdfc.dto.LoginRequest;
+import com.hdfc.entity.User;
+import com.hdfc.repository.UserRepository;
+import com.hdfc.utility.LoginMesage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+@Service
+public class UserServiceImpl implements UserService {
+	@Autowired
+    private UserRepository userRepository;
+	  private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+    
+    public User registerUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return userRepository.save(user);
+    }
+
+	
+    public User authenticate(String usernameOrEmail, String password) {
+        return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail)
+                .filter(user -> passwordEncoder.matches(password, user.getPassword()))
+                .orElse(null);
+    }
+
+
+	@Override
+	public LoginMesage loginUser(LoginRequest loginDto) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+   
+}

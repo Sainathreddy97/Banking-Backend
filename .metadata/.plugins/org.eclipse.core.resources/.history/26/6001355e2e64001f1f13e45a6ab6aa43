@@ -1,0 +1,72 @@
+package com.hdfc.service;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.hdfc.dto.UserDto;
+import com.hdfc.entity.User;
+import com.hdfc.repository.UserRepository;
+
+@Service
+public class UserServiceImpl implements UserService {
+	private static final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private EmailService emailService;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Autowired
+	private ModelMapper modelMapper;
+
+	
+	public User registerUser(User user) {
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		user.setVerificationCode(generateVerificationCode());
+		User savedUser = userRepository.save(user);
+		emailService.sendVerificationEmail(user.getEmail(), user.getVerificationCode());
+		return savedUser;
+	}
+	public UserDto authenticate(String usernameOrEmail, String password) {
+		Optional<User> userOptional = userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail);
+		if (userOptional.isPresent()) {
+			User user = userOptional.get();
+			if (!user.isEnabled()) {
+				logger.warn("User account not verified");
+				return null;
+			}
+			if (passwordEncoder.matches(password, user.getPassword())) {
+				logger.info("User authenticated successfully");
+				return modelMapper.map(user, UserDto.class);
+			} else {
+				logger.warn("Password does not match");
+			}
+		} else {
+			logger.warn("User not found");
+		}
+		return null;
+	}
+
+	public List<UserDto> getAllUsers() {
+		List<User> users = userRepository.findAll();
+		return users.stream().map(user -> modelMapper.map(user, UserDto.class)).collect(Collectors.toList());
+	}
+	
+	private String generateVerificationCode() {
+		return UUID.randomUUID().toString();
+	}
+
+}

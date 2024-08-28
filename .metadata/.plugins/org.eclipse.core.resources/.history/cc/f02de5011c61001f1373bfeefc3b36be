@@ -1,0 +1,5 @@
+package com.authenticate.entity;
+
+public class Role {
+
+}

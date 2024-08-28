@@ -1,0 +1,36 @@
+package com.hdfc.mapper;
+
+import java.util.stream.Collectors;
+
+import com.authenticate.dto.UserDto;
+import com.hdfc.dto.AccountDto;
+import com.hdfc.entity.Account;
+
+public class AccountMapper {
+	 public static  AccountDto mapToUserDto( Account  account) {
+	        if ( Account == null) {
+	            return null;
+	        }
+
+	        return new  AccountDto(
+	        		 account.getAccountId(),
+	        		 account.getBalance(),
+	        		 account.getAccountHolderName()
+	        );
+	    }
+
+	public static User mapToUser(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+
+        return new User(
+            userDto.getId(),
+            userDto.getUsername(),
+            userDto.getPasswordHash(),
+            userDto.getEmail(),
+            userDto.getPhoneNumber(),
+            userDto.getRoles().stream().collect(Collectors.toSet())
+        );
+    }
+}

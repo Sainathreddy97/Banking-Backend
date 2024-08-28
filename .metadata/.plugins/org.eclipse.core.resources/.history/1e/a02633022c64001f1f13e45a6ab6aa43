@@ -1,0 +1,36 @@
+package com.hdfc.mapper;
+
+import com.hdfc.dto.UserDto;
+import com.hdfc.entity.User;
+
+public class UserMapper {
+
+    public static UserDto toDto(User user) {
+        if (user == null) {
+            return null;
+        }
+        return new UserDto(
+            user.getId(),
+            user.getName(),
+            user.getUsername(),
+            user.getEmail(),
+            user.getPassword(),
+            user.getRoles() 
+        );
+    }
+
+    public static User toEntity(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+        return new User(
+            userDto.getId(),
+            userDto.getName(),
+            userDto.getUsername(),
+            userDto.getEmail(),
+            userDto.getPassword(),
+            userDto.getRoles() 
+        );
+    }
+}
+

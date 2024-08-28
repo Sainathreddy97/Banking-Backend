@@ -1,0 +1,26 @@
+package com.authenticate.service;
+import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.authenticate.dto.UserDto;
+import com.authenticate.entity.User;
+import com.authenticate.exception.ResourceNotFoundException;
+import com.authenticate.repository.UserRepository;
+public class UserServiceImpl implements UserService {
+	Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+	@Autowired
+	UserRepository userRepository;
+	@Autowired
+	private ModelMapper modelMapper;
+	@Override
+	public UserDto getUser(long id) {
+		User user = userRepository.findById(id).orElseThrow(
+				()->new  ResourceNotFoundException("user","id",id)
+				);
+		//User user = byId.get();	(Not Required)
+		//return UserMapper.mapToUserDto(user);
+		return modelMapper.map(user, UserDto.class);
+	}
+}

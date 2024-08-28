@@ -1,0 +1,11 @@
+CREATE TABLE IF NOT EXISTS user (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255),
+    username VARCHAR(255) UNIQUE,
+    email VARCHAR(255) UNIQUE,
+    phone_number VARCHAR(20),
+    password VARCHAR(255),
+    enabled BOOLEAN,
+    verification_code VARCHAR(255),
+    mfa_secret VARCHAR(255)
+);

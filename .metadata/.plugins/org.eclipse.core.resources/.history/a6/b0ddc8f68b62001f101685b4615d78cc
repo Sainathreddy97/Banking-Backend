@@ -1,0 +1,38 @@
+package com.authenticate.mapper;
+
+import java.util.stream.Collectors;
+
+import com.authenticate.dto.UserDto;
+import com.authenticate.entity.User;
+
+public class UserMapper {
+	 public static UserDto mapToUserDto(User user) {
+	        if (user == null) {
+	            return null;
+	        }
+
+	        return new UserDto(
+	            user.getId(),
+	            user.getUsername(),
+	            user.getPasswordHash(),
+	            user.getEmail(),
+	            user.getPhoneNumber(),
+	            user.getRoles().stream().collect(Collectors.toSet())
+	        );
+	    }
+
+	public static User mapToUser(UserDto userDto) {
+        if (userDto == null) {
+            return null;
+        }
+
+        return new User(
+            userDto.getId(),
+            userDto.getUsername(),
+            userDto.getPasswordHash(),
+            userDto.getEmail(),
+            userDto.getPhoneNumber(),
+            userDto.getRoles().stream().collect(Collectors.toSet())
+        );
+    }
+}

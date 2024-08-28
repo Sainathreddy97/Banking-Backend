@@ -1,0 +1,37 @@
+package com.hdfc.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.hdfc.dto.AccountDto;
+import com.hdfc.entity.Account;
+import com.hdfc.mapper.AccountMapper;
+import com.hdfc.repository.AccountRepository;
+@Service
+public class AccountServiceImpl implements AccountService {
+@Autowired
+private AccountRepository accountRepository;
+	
+	public AccountDto saveAccount(AccountDto accountDto) {
+		Account account = AccountMapper.mapToAccount(accountDto);
+		Account savedAccount = accountRepository.save(account);
+		return AccountMapper.mapToAccountDto(savedAccount);
+	}
+
+	
+	public AccountDto getAccountById(Long id) {
+	    Account account = accountRepository.findById(id).orElseThrow(
+	            () -> new RuntimeException("Account Not Found"));
+	    return AccountMapper.mapToAccountDto(account);
+	}
+
+
+	@Override
+	public AccountDto deposit(Long id, double amount) {
+		Account account = accountRepository.findById(id).orElseThrow(
+	            () -> new RuntimeException("Account Not Found"));
+		double total = account.getBalance() + amount;
+		account.setBalance(total);
+		return null;
+	}
+}
